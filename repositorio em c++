@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Restaurante {
+private:
+    vector<bool> mesas;
+
+public:
+    Restaurante(int numMesas) : mesas(numMesas, false) {}
+
+    void mostrarMesasDisponiveis() {
+        cout << "Mesas disponíveis:" << endl;
+        for (int i = 0; i < mesas.size(); ++i) {
+            if (!mesas[i]) {
+                cout << "Mesa " << i + 1 << ": Disponível" << endl;
+            } else {
+                cout << "Mesa " << i + 1 << ": Ocupada" << endl;
+            }
+        }
+        cout << endl;
+    }
+
+    bool reservarMesa(int numMesa) {
+        if (numMesa < 1 || numMesa > mesas.size()) {
+            cout << "Mesa inválida. Tente novamente." << endl;
+            return false;
+        }
+
+        if (mesas[numMesa - 1]) {
+            cout << "Desculpe, a mesa já está ocupada." << endl;
+            return false;
+        } else {
+            mesas[numMesa - 1] = true;
+            cout << "Reserva efetuada com sucesso para a mesa " << numMesa << "." << endl;
+            return true;
+        }
+    }
+};
+
+int main() {
+    int numMesas;
+    cout << "Informe o número de mesas do restaurante: ";
+    cin >> numMesas;
+
+    Restaurante restaurante(numMesas);
+
+    while (true) {
+        cout << "\n1. Mostrar mesas disponíveis";
+        cout << "\n2. Fazer reserva";
+        cout << "\n0. Sair";
+        cout << "\nEscolha uma opção: ";
+
+        int escolha;
+        cin >> escolha;
+
+        switch (escolha) {
+            case 1:
+                restaurante.mostrarMesasDisponiveis();
+                break;
+            case 2:
+                int numMesa;
+                cout << "Informe o número da mesa desejada: ";
+                cin >> numMesa;
+                restaurante.reservarMesa(numMesa);
+                break;
+            case 0:
+                cout << "Saindo do programa. Obrigado!";
+                return 0;
+            default:
+                cout << "Opção inválida. Tente novamente." << endl;
+        }
+    }
+
+    return 0;
+}
